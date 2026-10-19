@@ -1,0 +1,12 @@
+{
+  "version": "1.0.1",
+  "app_id": "c977d7b7e07b49298007a427",
+  "store_url": "https://apps.repebble.com/c977d7b7e07b49298007a427",
+  "download_url": "https://appstore-api.repebble.com/api/assets/pbw/c977d7b7e07b49298007a427/1.0.1/bbe50d56-ae7e-41fe-882b-d85df9687edd.pbw",
+  "screenshots": [
+    "https://assets.repebble.com/screenshots/c977d7b7e07b49298007a427/emery/00895dd2-f35c-46e3-b5c8-92a525617395.png",
+    "https://assets.repebble.com/screenshots/c977d7b7e07b49298007a427/emery/1adc1a22-53f1-4c1a-beba-305aec8b3f15.png"
+  ],
+  "downloaded_pbw_contents_identical": true,
+  "pbw_sha256": "a9cfd97052b5e3ad9d3b97b6b0c10853678b73a1107548ab34bb35dd10ffe9b5"
+}

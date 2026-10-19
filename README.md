@@ -105,6 +105,8 @@ Version 1.0.1 is the initial public release, approved by Liam on 19 October 2026
 The app has its own UUID and no runtime dependency on another repo. Source:
 https://github.com/LiamCordelle/pebble-underground.
 
+Store: https://apps.repebble.com/c977d7b7e07b49298007a427
+
 The release was audited against Mondrian 1.0.4, kit 1.1, commit
 `8b40d001a8169d8bdf2ea23766bb4fe558e9ef8c`. Its filtered current-heart-rate
 availability fix, same-minute sample handling, health regression tests, weather

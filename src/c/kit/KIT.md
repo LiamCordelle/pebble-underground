@@ -264,3 +264,8 @@ heading/namespace and omission of Mondrian's optional caption toggle.
 No upstream improvements were missing; no sibling files were edited. The full
 kit suite, including filtered-HR regressions and 143,192 zoneinfo comparisons,
 passed again before publication. The approved render pixels remain unchanged.
+
+Underground 1.0.1 published on 19 October 2026: https://apps.repebble.com/c977d7b7e07b49298007a427.
+The public listing shows both approved Emery screenshots. Downloaded the public
+PBW and verified every ZIP entry against the local release; all contents match.
+Publication receipt and artifact verification are recorded in `store/`.

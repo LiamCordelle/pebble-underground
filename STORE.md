@@ -4,6 +4,8 @@ Your day as a transit map. Follow daylight, steps, heart rate and UV along colou
 
 Initial public version: 1.0.1.
 
+Published: https://apps.repebble.com/c977d7b7e07b49298007a427
+
 Source: https://github.com/LiamCordelle/pebble-underground
 
 Screenshots: `store/emery_face.png` and `store/emery_detail.png`.

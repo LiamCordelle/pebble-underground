@@ -16,3 +16,5 @@ timezone checks and final Emery interaction/settings/weather/cache checks.
 Observed QEMU frames: 3–17 ms; clean app exit with no remaining allocations.
 
 1.0.0 was the local design and verification build.
+
+Published listing: https://apps.repebble.com/c977d7b7e07b49298007a427
