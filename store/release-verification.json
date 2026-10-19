@@ -1,0 +1,10 @@
+{
+  "version": "1.0.1",
+  "uuid": "5d63e9ce-c534-49f6-9358-e04a925011c2",
+  "mondrian_commit": "8b40d001a8169d8bdf2ea23766bb4fe558e9ef8c",
+  "mondrian_kit": "1.1",
+  "underground_kit": "1.2",
+  "build_warnings": 0,
+  "approved_screenshots_unchanged": true,
+  "pbw_sha256": "a9cfd97052b5e3ad9d3b97b6b0c10853678b73a1107548ab34bb35dd10ffe9b5"
+}

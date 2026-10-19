@@ -1,0 +1,2 @@
+All assertions passed. Frame times 3–17 ms.
+Final rebuilt PBW: UUID checked, face/detail captured, goal-caption pixels match host, clean exit, emulator stopped.
