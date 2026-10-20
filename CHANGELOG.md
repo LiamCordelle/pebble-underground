@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4 — 20 October 2026
+
+- Build from the shared watchface kit 2.0.0 so future shared improvements are
+  picked up by release builds. Preserve the existing appearance, settings,
+  weather reliability and recorded-minute heart-rate history behaviour.
+
 ## 1.0.3 — 20 October 2026
 
 - Reconstruct today's heart-rate range from recorded minute BPMs, including

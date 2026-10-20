@@ -163,3 +163,5 @@ capture. No app faults were logged. Most frame wall-clock measurements were
 3–15ms, with one 1005ms measurement at the first minute boundary; these QEMU
 wall-clock logs are not physical-watch CPU timings. The SDK profile was restored
 and the emulator stopped. Evidence: `shots/history-*`.
+
+Release 1.0.4: built with the shared kit 2.0.0; artwork and settings are preserved.
