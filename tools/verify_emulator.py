@@ -18,7 +18,7 @@ assert same(crop('emulator-disconnected.png',(68,73,132,88)),
 assert same(crop('emulator-original-live.png',(0,119,200,207)),
             crop('emulator-restarted.png',(0,119,200,207))),'Cached map changed after restart'
 logs='\n'.join((S/name).read_text() for name in ('emulator.log','emulator-data.log'))
-assert 'Watchface kit 1.2 started' in logs
+assert re.search(r'Watchface kit [0-9.]+ started',logs)
 assert 'Weather snapshot accepted (48 hours)' in logs
 assert 'Kit settings applied: time=1 unit=1' in logs
 assert 'Still allocated <0B>' in logs

@@ -1,7 +1,7 @@
 'use strict';
 // Synthetic sensor data, current timestamps: exercises the production protocol.
 var fs=require('fs'),weather=require('../src/pkjs/kit/weather');
-var data=require('../tests/fixture')();
+var data=require('../shared-kit/tests/fixture')();
 var now=Math.floor(Date.now()/1000),offset=3600;
 var start=Math.floor((now+offset)/86400)*86400-offset;
 var shift=start-data.daily.time[0];
