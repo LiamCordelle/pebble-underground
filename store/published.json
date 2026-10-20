@@ -1,13 +1,14 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "app_id": "c977d7b7e07b49298007a427",
   "store_url": "https://apps.repebble.com/c977d7b7e07b49298007a427",
-  "download_url": "https://appstore-api.repebble.com/api/assets/pbw/c977d7b7e07b49298007a427/1.0.2/0acb1a4b-ddf4-4369-82d6-bac72a2d9358.pbw",
+  "download_url": "https://appstore-api.repebble.com/api/assets/pbw/c977d7b7e07b49298007a427/1.0.3/525c5b28-9eb4-4478-be9f-049e99382402.pbw",
   "uuid": "5d63e9ce-c534-49f6-9358-e04a925011c2",
-  "published_date": "2026-10-19T17:00:36.074",
-  "release_notes": "Add a colour transit-route icon in the watch's Watchfaces list, with red, green and purple routes and open station markers.",
+  "published_date": "2026-10-20T16:15:37.494",
+  "release_notes": "Correct today's heart-rate range using recorded minute history, including earlier readings from other watchfaces. Mark incomplete ranges with an asterisk and retain recorded history when the current reading is unavailable. Preserve the transit layout, pace wording and watchfaces-list icon.",
   "screenshots_unchanged": true,
   "downloaded_pbw_matches_build_after_uuid_case_normalization": true,
-  "local_pbw_sha256": "6f714444d2cdd1a209979d655167b2b8f4b85dcbd8f894117d214f7e2fa74dcf",
-  "published_pbw_sha256": "6f714444d2cdd1a209979d655167b2b8f4b85dcbd8f894117d214f7e2fa74dcf"
+  "local_pbw_sha256": "19247b313ae066f976c2c79e351619f656d0fbcfe066d5138f3a30dd6f8e7dab",
+  "published_pbw_sha256": "19247b313ae066f976c2c79e351619f656d0fbcfe066d5138f3a30dd6f8e7dab",
+  "gallery_count": 2
 }
