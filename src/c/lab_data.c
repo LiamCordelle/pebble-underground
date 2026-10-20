@@ -263,6 +263,8 @@ void lab_data_refresh(LabData *d) {
   d->heart_rate=preview_int("UNDERGROUND_HR",d->heart_rate);
   d->hr_min=preview_int("UNDERGROUND_HR_MIN",d->hr_min);
   d->hr_max=preview_int("UNDERGROUND_HR_MAX",d->hr_max);
+  d->hr_range_partial=preview_int("UNDERGROUND_HR_PARTIAL",0);
+  if(preview_int("UNDERGROUND_NO_CURRENT_HR",0))d->hr_ok=false;
   d->steps=preview_int("UNDERGROUND_STEPS",d->steps);
   if(preview_int("UNDERGROUND_NO_HEALTH",0)) {
     d->steps_ok=d->hr_ok=false;d->steps=d->heart_rate=d->hr_min=d->hr_max=0;

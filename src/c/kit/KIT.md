@@ -1,4 +1,4 @@
-# Watchface kit 1.2
+# Watchface kit 1.3
 
 Established by `pebble-mondrian` on 18 October 2026. No earlier sibling kit
 existed. This is a copied-source kit, with no runtime dependency on the lab,
@@ -10,7 +10,7 @@ Copy `src/c/kit/` and `src/pkjs/kit/` into the next face. Keep the lab contract
 (`lab.h`, `lab_common.c`, scenario definitions in `lab_data.c`, `lab_designs.h`).
 Kit additions to `LabData` must be copied too: temperature unit, optional label
 size, tomorrow/next sun fields, maximum UV, rolling temperature/rain/code,
-rolling local hour/day labels and `rolling_count`.
+rolling local hour/day labels, `rolling_count` and `hr_range_partial`.
 
 `lab_main.c` calls `kit_shell_run(&your_design)`. The live branch of
 `lab_data_refresh` sets local time/device state and calls `kit_fill`; fixed lab
@@ -32,6 +32,7 @@ unchanged. No button handlers are needed for a watchface.
 | `kit.c` | single AppMessage dispatcher; registers before opening buffers |
 | `kit_core.c/.h` | versioned weather decoder, validation, calendar, DST and retry state |
 | `kit_health.c` | permission-aware health, event coalescing, daily/hourly history caches |
+| `kit_hr_history.c` | bounded asynchronous recorded-minute HR reconstruction |
 | `kit_settings.c` | staged settings validation, persistence and world-clock projection |
 | `kit_weather.c` | request correlation, watchdog/retries, cache and LabData projection |
 | `kit_shell.c` | window, minute tick, touch/flick detail view and frame timing |
@@ -137,6 +138,42 @@ earlier cancels the notification. This is firmware debounce, not a rendering lag
 
 ## Verification and changelog
 
+1.3 (20 October 2026): combine Mondrian 1.0.6's history reader with
+Underground 1.2's pace formatter. Reconstruct today's HR extrema and hourly
+averages from
+`health_service_get_minute_history`, not midnight-to-now aggregate queries.
+The two-hour aggregate API limit does not bound this separate minute-file path.
+A 60-record stack buffer is read in 25ms timer batches; no day-sized allocation,
+extra redraw, sensor-period change or own persisted health database is needed.
+Completed minutes are scanned once, then only new minutes are appended. A
+significant health sync, local-day/time-zone change or clock rollback rebuilds
+the cache. Repeated DST hours combine and a missing hour stays empty.
+Ignore invalid records and BPM 0/255. Continue short reads/gaps using returned
+start/count, validate SDK bounds, and never trust a mutable end time as progress.
+Permission loss cancels reads and clears the range. No current sample is required
+if earlier recorded values exist. A missing window/read failure is retried during
+an hourly rescan; a timer allocation failure is retried at the next refresh.
+`hr_range_partial` covers loading, invalid/missing records and read failures.
+Mondrian uses `BPM*` while partial; Underground appends `*` to the range
+on its Heart status row. Missing extrema show `range --` (or `range --*` while
+loading/incomplete). Recorded history remains visible without a current sample. Values represent
+recorded minute BPMs, so sub-minute peaks are not promised.
+Validation: the real-module history fixture reconstructs noon extrema from
+morning records older than two hours, resumes short reads, handles failures and
+missing records, repairs coverage on hourly rescan, and handles 23/25-hour local
+days. Health permission-loss tests also assert that pending reads are cancelled.
+Underground 1.0.3 preserves its pace wording, transit geometry, phone namespace
+and existing watchfaces-list icon. The inherited aggregate HR limit applies to
+aggregate queries; it does not impose a two-hour limit on minute-file history.
+Asterisk means incomplete/loading history, not an abnormal heart rate.
+
+Always stop QEMU after a check, including on failure. The reusable
+`tools/emulator_history_check.py --clean-profile` (run with pebble-tool's Python)
+backs up/restores the existing emulator profile, verifies this app's active UUID,
+checks minute-history completion and tap timeout, and kills QEMU in finally.
+Recorded-minute persistence on physical Time 2 hardware remains a device check.
+
+
 1.2 (19 October 2026), in `pebble-underground`: copied Mondrian's 1.1 kit,
 including the filtered-current-HR fix. Added SDK-independent
 `kit_format_pace(out,size,steps,usual)` in `kit_core`: explicitly says
@@ -203,8 +240,8 @@ frames took 6–10 ms, with no app faults. Captures and logs are in
 `shots/health-fix-*`. Synthetic HR injection requires initializing emulator
 health totals first (`pebble emu-steps 6842`); the OS's filtered BPM may differ
 from the injected raw sample. The clock was restored after testing.
-Today's min/max remains independently subject to the firmware history limit;
-unavailable historical ranges must not hide a valid current BPM.
+The old daily aggregate limitation is superseded by the minute-history reader
+in kit 1.3; unavailable history must not hide a valid current BPM.
 
 
 1.0: first kit, established in Mondrian. Tests are `python3 tests/run.py`:
@@ -269,3 +306,15 @@ Underground 1.0.1 published on 19 October 2026: https://apps.repebble.com/c977d7
 The public listing shows both approved Emery screenshots. Downloaded the public
 PBW and verified every ZIP entry against the local release; all contents match.
 Publication receipt and artifact verification are recorded in `store/`.
+
+
+1.0.3 validation (20 October 2026): all protocol, health and minute-history
+tests passed, including older records, gaps, permission loss, incremental reads
+and 143,192 timezone comparisons. All 62 render scenes passed; the original
+upper bowl remains pixel-identical. Final clean-profile Emery testing verified
+the active Underground UUID, current BPM 64 and the partial recorded-minute
+range 64–64*, then returned after eight seconds to an identical main-face
+capture. No app faults were logged. Most frame wall-clock measurements were
+3–15ms, with one 1005ms measurement at the first minute boundary; these QEMU
+wall-clock logs are not physical-watch CPU timings. The SDK profile was restored
+and the emulator stopped. Evidence: `shots/history-*`.

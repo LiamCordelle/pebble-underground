@@ -842,14 +842,19 @@ static void status_rows(const LabData *d, StatusRow *rows) {
   if (!d->hr_ok) {
     r->status = "No information";
     r->sev = ST_INFO;
-    snprintf(r->detail, sizeof(r->detail), "No reading");
+    if(d->hr_min>0 && d->hr_max>=d->hr_min)
+      snprintf(r->detail,sizeof(r->detail),"-- bpm · %d–%d%s",d->hr_min,d->hr_max,
+               d->hr_range_partial ? "*" : "");
+    else snprintf(r->detail,sizeof(r->detail),"No reading%s",d->hr_range_partial ? "*" : "");
   } else {
     r->status = d->heart_rate >= 140 ? "Express service"
                 : d->heart_rate >= 100 ? "Running fast" : "Good service";
     r->sev = ST_GOOD;
     if(d->hr_min>0 && d->hr_max>=d->hr_min)
-      snprintf(r->detail,sizeof(r->detail),"%d bpm · %d–%d",d->heart_rate,d->hr_min,d->hr_max);
-    else snprintf(r->detail,sizeof(r->detail),"%d bpm · range --",d->heart_rate);
+      snprintf(r->detail,sizeof(r->detail),"%d bpm · %d–%d%s",d->heart_rate,d->hr_min,d->hr_max,
+               d->hr_range_partial ? "*" : "");
+    else snprintf(r->detail,sizeof(r->detail),"%d bpm · range --%s",d->heart_rate,
+                  d->hr_range_partial ? "*" : "");
   }
 
   // UV service describes the WHO band; the open ring on the map is peak UV.

@@ -1,1 +1,1 @@
-Initial release for Pebble Time 2. Horizontal UV route with daily peak marker, rolling rain forecasts across midnight, live health, configurable units and world clock, and tap-for-detail Service status. Includes the latest Mondrian heart-rate availability fix.
+Correct today's heart-rate range using recorded minute history, including earlier readings from other watchfaces. Mark incomplete ranges with an asterisk and retain recorded history when the current reading is unavailable. Preserve the transit layout, pace wording and watchfaces-list icon.

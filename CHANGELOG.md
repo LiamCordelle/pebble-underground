@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.3 — 20 October 2026
+
+- Reconstruct today's heart-rate range from recorded minute BPMs, including
+  earlier readings while other faces were active, with bounded asynchronous reads.
+- Mark incomplete history with an asterisk; retain the range if the current
+  reading is unavailable. Current filtered BPM and transit geometry are unchanged.
+- Kit 1.3 combines this history fix with Underground's existing pace formatter.
+- Preserve the 1.0.2 Watchfaces-list icon.
+
+## 1.0.2 — 19 October 2026
+
+- Add a native 25x25 red, green and purple transit-route icon to the watch's
+  Watchfaces list.
+  Regenerate it with `python3 tools/create_menu_icon.py` (requires Pillow).
+
 ## 1.0.1 — 19 October 2026
 
 Initial public release for Pebble Time 2.

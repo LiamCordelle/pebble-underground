@@ -1,0 +1,26 @@
+Appstore auth preflight...
+API base: https://appstore-api.repebble.com
+Developer link check successful.
+Building app...
+App build successful.
+PBW Metadata
+Using PBW: /Users/lcordelle/Documents/pebble/pebble-watchface-agent-skill/pebble-underground/build/pebble-underground.pbw
+PBW app UUID: 5d63e9ce-c534-49f6-9358-e04a925011c2
+Name: Underground
+PBW Version: 1.0.2
+Publish Version: 1.0.2
+Platforms: emery
+Resolved existing appstore app ID: c977d7b7e07b49298007a427
+Publishing release to Pebble Appstore...
+
+Waiting for release upload response [                        ]   0s
+Waiting for release upload response [=                       ]   0s
+Waiting for release upload response [==                      ]   0s
+Waiting for release upload response [===                     ]   1s
+Waiting for release upload response [====                    ]   1s
+Waiting for release upload response [=====                   ]   1s
+Waiting for release upload response [======                  ]   1s
+Waiting for release upload response [========================]   1s
+Release created successfully
+Visit the dashboard to add/edit your changelog: https://appstore-api.repebble.com/dashboard
+App page: https://apps.rePebble.com/c977d7b7e07b49298007a427

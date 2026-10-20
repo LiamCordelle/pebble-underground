@@ -41,6 +41,13 @@ Clay provides watch/12/24-hour format, Celsius/Fahrenheit, step goal (default
 health demo fallback (off by default). Changes apply immediately and persist.
 The optional Mondrian caption setting is not exposed here.
 
+Version 1.0.3 reconstructs the Heart row's daily range from valid recorded
+minute BPMs since local midnight, including history recorded under other faces.
+An asterisk after the range marks incomplete/loading history; dashes mean no
+usable records. The range stays available if the current filtered reading
+expires. Minute records do not capture every brief sub-minute peak. The transit
+layout and current-BPM sensor policy are unchanged.
+
 The watch requests Open-Meteo every 30 minutes. Serialized phone messages,
 a 45-second watchdog, 1/5/15-minute retries and an atomic three-hour weather
 cache are documented in [KIT.md](src/c/kit/KIT.md). Health events capture fresh
@@ -59,7 +66,7 @@ the final row ends at y224, inside the 228px display.
 
 All layout iteration used the external Watchface Lab renderer, keeping the
 `LabData` / `LabDesign` contract and compiling kit modules with `LAB_HOST_RENDER`.
-`tools/render_scenes.py` produces 57 scenes covering demo/stress/empty, both
+`tools/render_scenes.py` produces 62 scenes covering demo/stress/empty, both
 views, midnight, next sunrise, 12-hour mode, units, health loss, battery/phone,
 charging, UV band boundaries, short forecasts and every weather kind.
 It asserts that the demo's unchanged upper bowl matches the prototype pixel
@@ -95,7 +102,7 @@ frame timing remain hardware checks. Continuous touch preserves direct taps;
 
 - `src/c/design.c`: the diagram and Service status board.
 - `src/c/lab_*`: lab contract, helpers, scenarios and shell entry point.
-- `src/c/kit/` and `src/pkjs/kit/`: copied kit 1.1, locally extended to 1.2.
+- `src/c/kit/` and `src/pkjs/kit/`: copied kit 1.1, locally extended to 1.3.
 - `shots/`: verified renders and emulator evidence.
 - `icon_80x80.png`, `icon_144x144.png`: static store icons.
 - `STORE.md`: listing text and attribution.
@@ -118,3 +125,14 @@ icons and `store/description.txt`. Publishing uses a clean build and checks the
 PBW's embedded UUID and version. See `CHANGELOG.md` and `src/c/kit/KIT.md`.
 Ask Liam before future branches, remotes, commits or publications; use
 `liamcordelle1234@gmail.com` for commits.
+
+1.0.3 validation (20 October 2026): all protocol, health and minute-history
+tests passed, including older records, gaps, permission loss, incremental reads
+and 143,192 timezone comparisons. All 62 render scenes passed; the original
+upper bowl remains pixel-identical. Final clean-profile Emery testing verified
+the active Underground UUID, current BPM 64 and the partial recorded-minute
+range 64–64*, then returned after eight seconds to an identical main-face
+capture. No app faults were logged. Most frame wall-clock measurements were
+3–15ms, with one 1005ms measurement at the first minute boundary; these QEMU
+wall-clock logs are not physical-watch CPU timings. The SDK profile was restored
+and the emulator stopped. Evidence: `shots/history-*`.
