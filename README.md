@@ -24,6 +24,7 @@ unavailable historical heart ranges stay explicitly unknown.
 Requires Pebble SDK/tool and Node.js. Emery is the only target.
 
 ```sh
+git submodule update --init shared-kit
 npm ci
 pebble build
 pebble install --emulator emery build/pebble-underground.pbw
@@ -33,6 +34,32 @@ pebble install --cloudpebble build/pebble-underground.pbw
 The normal build is live (`LAB_SCENARIO=3`). `LAB_SCENARIO=0`, `1`, or `2`
 selects the preserved lab demo, stress or empty fixtures. This is a watchface:
 buttons retain their system roles. Updates use minute ticks, without animation.
+
+
+## Shared kit development and release builds
+
+Read [AGENTS.md](AGENTS.md) before changes: shared behaviour belongs in
+`shared-kit`; design/artwork and per-face options belong here. The kit's tests
+and implementation have one source. `src/c/kit`, `src/pkjs/kit`, `src/c/lab.h`
+and `src/c/lab_common.c` are links into the submodule. Each app retains its
+existing phone storage namespace, UUID, settings and persistence format.
+Signal Deck is not a kit consumer.
+
+```sh
+npm test                         # shared suite plus this face's checks
+npm run release                  # automatically fetch latest kit main, test and clean-build live
+npm run release -- --render       # additionally run the full scene coverage
+npm run release -- --pinned       # use current kit without network access
+npm run kit:update               # fetch the kit without building
+```
+
+`pebble build` stays offline with respect to the kit and supports unfinished kit
+edits. Release builds refuse unfinished/unpublished kit work or a failed fetch.
+The PBW and `build/<watchface>.provenance.json` record the result and exact kit
+revision; the receipt also contains the PBW SHA-256. These commands do not
+publish to the Pebble store. Commit the updated submodule revision with an app
+release. For a historical rebuild, check out that app revision, run
+`git submodule update --init shared-kit`, then use the pinned command.
 
 ## Settings and data
 
@@ -50,7 +77,7 @@ layout and current-BPM sensor policy are unchanged.
 
 The watch requests Open-Meteo every 30 minutes. Serialized phone messages,
 a 45-second watchdog, 1/5/15-minute retries and an atomic three-hour weather
-cache are documented in [KIT.md](src/c/kit/KIT.md). Health events capture fresh
+cache are documented in the [shared kit](shared-kit/docs/copied-kit-history.md). Health events capture fresh
 readings while coalescing expensive history work; they do not trigger redraws.
 Weather data: [Open-Meteo](https://open-meteo.com/).
 
@@ -102,7 +129,7 @@ frame timing remain hardware checks. Continuous touch preserves direct taps;
 
 - `src/c/design.c`: the diagram and Service status board.
 - `src/c/lab_*`: lab contract, helpers, scenarios and shell entry point.
-- `src/c/kit/` and `src/pkjs/kit/`: copied kit 1.1, locally extended to 1.3.
+- `shared-kit/`: shared kit 2.0.0 Git submodule; `src/c/kit/` and `src/pkjs/kit/` link into it.
 - `shots/`: verified renders and emulator evidence.
 - `icon_80x80.png`, `icon_144x144.png`: static store icons.
 - `STORE.md`: listing text and attribution.
@@ -122,7 +149,7 @@ Underground retains its local kit 1.2 additions for explicit pace wording.
 
 Store assets are `store/emery_face.png`, `store/emery_detail.png`, the two root
 icons and `store/description.txt`. Publishing uses a clean build and checks the
-PBW's embedded UUID and version. See `CHANGELOG.md` and `src/c/kit/KIT.md`.
+PBW's embedded UUID and version. See `CHANGELOG.md` and `shared-kit/README.md`.
 Ask Liam before future branches, remotes, commits or publications; use
 `liamcordelle1234@gmail.com` for commits.
 
