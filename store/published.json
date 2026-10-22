@@ -1,43 +1,133 @@
 {
-  "version": "1.0.5",
+  "version": "1.0.6",
   "app_id": "c977d7b7e07b49298007a427",
   "store_url": "https://apps.repebble.com/c977d7b7e07b49298007a427",
   "uuid": "5d63e9ce-c534-49f6-9358-e04a925011c2",
   "visible": true,
   "is_published": true,
   "has_pbw": true,
-  "published_date": "2026-10-22T21:03:10.51",
-  "release_notes": "New installations now default to an 8,000-step daily goal. Existing saved step goals are preserved. Includes the latest shared watchface kit.",
+  "published_date": "2026-10-22T21:26:36.894",
+  "release_notes": "Consistent temperature rounding and handling of unavailable sun times. Shared time, forecast and activity helpers improve consistency across watchfaces. New installations default to an 8,000-step goal; existing saved goals are preserved.",
   "gallery_counts": {
     "emery": 2
   },
   "screenshots_unchanged": true,
-  "kit_version": "2.1.2",
-  "kit_revision": "71a935de2c9554d8fa29570ceece633b7bd0214a",
-  "source_revision": "c3a6501a51614420e101b2c3c14097a667f4d3b0",
-  "local_pbw_sha256": "31653183de702a116120f0a25e51efa7a038c316ec8b3e070eba9c58b8ede26b",
+  "kit_version": "2.2.0",
+  "kit_revision": "c737afcfadf8cdd62dec58941cf8718fed0d6017",
+  "source_revision": "912293fef3d1bf599892eaeea7e1b6cb494682bc",
+  "local_pbw_sha256": "3aa1a6d025c6210ee6b1f6646f098d9a805177e6e79881c2a1d18361467de771",
   "release_build_provenance": {
-    "created_utc": "2026-10-22T21:02:04.461380+00:00",
+    "created_utc": "2026-10-22T21:25:22.967478+00:00",
     "app": "pebble-underground",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "uuid": "5d63e9ce-c534-49f6-9358-e04a925011c2",
-    "app_revision": "c3a6501a51614420e101b2c3c14097a667f4d3b0",
+    "app_revision": "912293fef3d1bf599892eaeea7e1b6cb494682bc",
     "app_modified": true,
-    "kit_version": "2.1.2",
-    "kit_revision": "71a935de2c9554d8fa29570ceece633b7bd0214a",
+    "kit_version": "2.2.0",
+    "kit_revision": "c737afcfadf8cdd62dec58941cf8718fed0d6017",
     "kit_repository": "https://github.com/LiamCordelle/pebble-watchface-kit.git",
-    "pbw_sha256": "31653183de702a116120f0a25e51efa7a038c316ec8b3e070eba9c58b8ede26b",
+    "pbw_sha256": "3aa1a6d025c6210ee6b1f6646f098d9a805177e6e79881c2a1d18361467de771",
     "scenario": 3,
     "touch_window_ms": 0,
     "tests_passed": true,
     "renders_checked": true
   },
   "runtime_default_verification": {
-    "app": "pebble-underground",
     "uuid": "5d63e9ce-c534-49f6-9358-e04a925011c2",
-    "fresh_default": 8000,
-    "persisted_goal_verified": 12500,
-    "no_faults": true
+    "fresh_default_goal": 8000,
+    "saved_goal_after_restart": 12500,
+    "synthetic_weather": true,
+    "weather_reply_count": 1,
+    "report": {
+      "frames": [
+        {
+          "view": "face",
+          "wall_ms": 6
+        },
+        {
+          "view": "face",
+          "wall_ms": 2
+        },
+        {
+          "view": "face",
+          "wall_ms": 9
+        },
+        {
+          "view": "face",
+          "wall_ms": 3
+        },
+        {
+          "view": "face",
+          "wall_ms": 2
+        },
+        {
+          "view": "face",
+          "wall_ms": 4
+        },
+        {
+          "view": "face",
+          "wall_ms": 3
+        },
+        {
+          "view": "face",
+          "wall_ms": 10
+        },
+        {
+          "view": "face",
+          "wall_ms": 6
+        },
+        {
+          "view": "face",
+          "wall_ms": 3
+        },
+        {
+          "view": "face",
+          "wall_ms": 4
+        },
+        {
+          "view": "face",
+          "wall_ms": 6
+        },
+        {
+          "view": "face",
+          "wall_ms": 3
+        },
+        {
+          "view": "face",
+          "wall_ms": 12
+        },
+        {
+          "view": "detail",
+          "wall_ms": 14
+        },
+        {
+          "view": "face",
+          "wall_ms": 11
+        }
+      ],
+      "clock_discontinuity_candidates": [],
+      "faults": [],
+      "starts": [
+        "2.2.0",
+        "2.2.0",
+        "2.2.0"
+      ],
+      "exits": [
+        {
+          "app": "Undergroun",
+          "allocated_bytes": 0
+        },
+        {
+          "app": "Undergroun",
+          "allocated_bytes": 0
+        },
+        {
+          "app": "Undergroun",
+          "allocated_bytes": 0
+        }
+      ],
+      "weather_acceptances": 1
+    }
   },
   "verification": "Authenticated store record confirms the expected existing app, visible published version, PBW and retained gallery. Local release hash is unchanged after the publish build."
 }
