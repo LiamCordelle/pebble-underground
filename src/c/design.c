@@ -1,5 +1,6 @@
 #include <string.h>
 #include "lab.h"
+#include "kit/kit_calc.h"
 #include "kit/kit_core.h"
 
 // 44 · Underground v2 (BRIEF.md section 14.44), from 28 · Underground.
@@ -429,8 +430,7 @@ static DayMap day_map(const LabData *d) {
   int half_bend = BEND / 2 * 141;
   m.s_rise = arc_to(DAY_PTS, 1) + half_bend;
   m.s_set = arc_to(DAY_PTS, 3) + half_bend;
-  m.known = d->weather_ok && d->sunrise_min > 0 && d->sunset_min > d->sunrise_min &&
-            d->sunset_min < 1440;
+  m.known = kit_daylight_state(d->weather_ok,d->minute_of_day,d->sunrise_min,d->sunset_min)!=KitDaylightUnknown;
   m.rise = m.known ? d->sunrise_min : 6 * 60;
   m.set = m.known ? d->sunset_min : 18 * 60;
   return m;
@@ -440,7 +440,7 @@ static int day_arc(const DayMap *m, int minute) {
   if (!m->known) {
     return (int)((int64_t)m->len * minute / 1440);
   }
-  if (minute <= m->rise) {
+  if (minute < m->rise) {
     return m->s_rise * minute / (m->rise > 0 ? m->rise : 1);
   }
   if (minute <= m->set) {
@@ -451,14 +451,7 @@ static int day_arc(const DayMap *m, int minute) {
 
 // Index in the chronological rolling forecast; never wrap missing hours.
 static int rain_peak_hour(const LabData *d) {
-  if (!d->weather_ok) return -1;
-  int best = -1, best_pct = 29;
-  for (int i = 1; i < d->rolling_count; i++) {
-    if (d->rolling_rain[i] > best_pct) {
-      best_pct = d->rolling_rain[i]; best = i;
-    }
-  }
-  return best;
+  return d->weather_ok ? kit_forecast_rain_peak(d->rolling_rain,d->rolling_count,1,30) : -1;
 }
 
 // Header: the time, then the date.
@@ -565,8 +558,7 @@ static void draw_day_stations(GContext *ctx, const LabData *d, const DayMap *m,
 static const Pt UV_PTS[] = {{XL, UV_Y}, {XR, UV_Y}};
 static int uv_arc(int value_x10) { return lab_clamp(value_x10,0,120) * (XR-XL)*100/120; }
 static bool is_night(const LabData *d) {
-  return d->weather_ok && d->sunrise_min > 0 &&
-    (d->minute_of_day < d->sunrise_min || d->minute_of_day >= d->sunset_min);
+  return kit_daylight_state(d->weather_ok,d->minute_of_day,d->sunrise_min,d->sunset_min)==KitDaylightNight;
 }
 static void draw_uv(GContext *ctx, const LabData *d, Taken *taken) {
   draw_poly(ctx,UV_PTS,2,2,3,C_UV);
@@ -750,22 +742,7 @@ typedef struct {
 // ETA at today's pace: steps per minute since the first active hour. This is
 // Summit's formula (designs/21-summit), so every face reports the same ETA.
 static int eta_minute(const LabData *d, int32_t goal) {
-  if (!d->steps_ok || d->steps <= 0) {
-    return -1;
-  }
-  int first = -1;
-  for (int h = 0; h < 24; h++) {
-    if (d->steps_by_hour[h] > 0) {
-      first = h;
-      break;
-    }
-  }
-  int elapsed = d->minute_of_day - (first < 0 ? 0 : first * 60);
-  if (elapsed < 1) {
-    elapsed = 1;
-  }
-  int32_t left = goal - d->steps;
-  return d->minute_of_day + (int)((left * elapsed) / d->steps);
+  return kit_goal_eta_minute(d->steps_ok,d->steps,d->steps_by_hour,d->minute_of_day,goal);
 }
 
 static void status_rows(const LabData *d, StatusRow *rows) {
@@ -775,9 +752,9 @@ static void status_rows(const LabData *d, StatusRow *rows) {
   r->name = "Day";
   r->box = C_DAY;
   r->box_text = C_WHITE;
-  bool sun_known=d->weather_ok && d->sunrise_min>0 && d->sunset_min>d->sunrise_min;
-  bool daylight = sun_known && d->minute_of_day >= d->sunrise_min &&
-                  d->minute_of_day < d->sunset_min;
+  KitDaylight light=kit_daylight_state(d->weather_ok,d->minute_of_day,d->sunrise_min,d->sunset_min);
+  bool sun_known=light!=KitDaylightUnknown;
+  bool daylight=light==KitDaylightDay;
   r->status = !sun_known ? "No information" : daylight ? "Good service" : "Night service";
   r->sev = ST_GOOD;
   if (sun_known && d->next_sun_min>=0) {
@@ -882,18 +859,18 @@ static void status_rows(const LabData *d, StatusRow *rows) {
       r->status = "Severe delays";
       r->sev = ST_SEVERE;
       snprintf(r->detail, sizeof(r->detail), "%s · %d°", lab_weather_text(d->weather_code),
-               d->temp_fahrenheit?(d->temp*9/5+32):d->temp);
+               kit_temperature(d->temp,d->temp_fahrenheit));
     } else if (h >= 0) {
       r->status = "Minor delays";
       r->sev = ST_MINOR;
       lab_fmt_minute_of_day(a, sizeof(a), d->rolling_hour[h] * 60, d->is_24h);
       snprintf(r->detail, sizeof(r->detail), "%d%% %s%s · %d°", d->rolling_rain[h], a, d->rolling_day[h]?"+1":"",
-               d->temp_fahrenheit?(d->temp*9/5+32):d->temp);
+               kit_temperature(d->temp,d->temp_fahrenheit));
     } else {
       r->status = "Good service";
       r->sev = ST_GOOD;
       snprintf(r->detail, sizeof(r->detail), "%s · %d°", lab_weather_text(d->weather_code),
-               d->temp_fahrenheit?(d->temp*9/5+32):d->temp);
+               kit_temperature(d->temp,d->temp_fahrenheit));
     }
   }
 

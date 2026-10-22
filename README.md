@@ -165,3 +165,11 @@ wall-clock logs are not physical-watch CPU timings. The SDK profile was restored
 and the emulator stopped. Evidence: `shots/history-*`.
 
 Release 1.0.4: built with the shared kit 2.0.0; artwork and settings are preserved.
+
+## Shared behaviour maintenance
+
+This release uses kit 2.2.0 for shared data and calculations.
+Artwork and explicit render fixtures remain face-owned. Run
+`tools/emulator_smoke.py` with pebble-tool's Python for common runtime checks;
+local emulator/visual checkers retain the face-specific assertions.
+The published 8,000-step-default release is recorded in store/published.json.
