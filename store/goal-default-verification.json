@@ -1,0 +1,7 @@
+{
+  "app": "pebble-underground",
+  "uuid": "5d63e9ce-c534-49f6-9358-e04a925011c2",
+  "fresh_default": 8000,
+  "persisted_goal_verified": 12500,
+  "no_faults": true
+}
