@@ -64,7 +64,7 @@ release. For a historical rebuild, check out that app revision, run
 ## Settings and data
 
 Clay provides watch/12/24-hour format, Celsius/Fahrenheit, step goal (default
-10,000), second time zone (NZ/UTC/LON/NYC/LA/TKY/SYD), weather on/off and opt-in
+8,000), second time zone (NZ/UTC/LON/NYC/LA/TKY/SYD), weather on/off and opt-in
 health demo fallback (off by default). Changes apply immediately and persist.
 The optional Mondrian caption setting is not exposed here.
 

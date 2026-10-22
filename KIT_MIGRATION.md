@@ -33,3 +33,11 @@ release is published by this migration. Signal Deck has not been migrated.
 
 Underground QEMU: history scan completed without app faults; frames 4–15ms.
 Screenshots and log: `build/history-check/`.
+
+## 8,000-step default — 22 October 2026
+
+Updated to shared kit 2.1.2 (`71a935d`). Fresh watch/phone settings and
+face fallbacks use 8,000 steps. Valid saved goals are preserved. Protocol keys,
+persistence layouts and explicit screenshot fixtures are unchanged. Shared and
+consumer tests, all five render suites and fresh-profile QEMU checks cover the
+new default and a saved 12,500-step goal across explicit stop/start.

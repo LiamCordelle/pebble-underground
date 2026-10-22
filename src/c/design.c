@@ -654,7 +654,7 @@ static void draw(GContext *ctx, GRect bounds, const LabData *d) {
       draw_tick(ctx, p, -1, 0, C_STEPS);
     }
   }
-  int32_t step_goal = d->step_goal > 0 ? d->step_goal : 10000;
+  int32_t step_goal = d->step_goal > 0 ? d->step_goal : KIT_DEFAULT_STEP_GOAL;
   int32_t steps = d->steps_ok ? d->steps : 0;
   Pt goal = ARCH_PTS[ARCH_N - 1];
   draw_ring(ctx, goal, 6);
@@ -797,7 +797,7 @@ static void status_rows(const LabData *d, StatusRow *rows) {
   // The count is on the face, so the board gives the comparisons: against your
   // usual pace, and when the train is due at the goal terminus.
   char n[12], due[16];
-  int32_t goal = d->step_goal > 0 ? d->step_goal : 10000;
+  int32_t goal = d->step_goal > 0 ? d->step_goal : KIT_DEFAULT_STEP_GOAL;
   int32_t diff = d->steps - d->steps_typical;
   int eta = eta_minute(d, goal);
   due[0] = 0;
