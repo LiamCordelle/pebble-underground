@@ -64,7 +64,7 @@ release. For a historical rebuild, check out that app revision, run
 ## Settings and data
 
 Clay provides watch/12/24-hour format, Celsius/Fahrenheit, step goal (default
-8,000), second time zone (NZ/UTC/LON/NYC/LA/TKY/SYD), weather on/off and opt-in
+8,000), searchable second time zone (all 597 IANA identifiers), weather on/off and opt-in
 health demo fallback (off by default). Changes apply immediately and persist.
 The optional Mondrian caption setting is not exposed here.
 
@@ -129,7 +129,7 @@ frame timing remain hardware checks. Continuous touch preserves direct taps;
 
 - `src/c/design.c`: the diagram and Service status board.
 - `src/c/lab_*`: lab contract, helpers, scenarios and shell entry point.
-- `shared-kit/`: shared kit 2.0.0 Git submodule; `src/c/kit/` and `src/pkjs/kit/` link into it.
+- `shared-kit/`: shared kit 2.4.1 Git submodule; `src/c/kit/` and `src/pkjs/kit/` link into it.
 - `shots/`: verified renders and emulator evidence.
 - `icon_80x80.png`, `icon_144x144.png`: static store icons.
 - `STORE.md`: listing text and attribution.
@@ -168,8 +168,21 @@ Release 1.0.4: built with the shared kit 2.0.0; artwork and settings are preserv
 
 ## Shared behaviour maintenance
 
-This release uses kit 2.2.0 for shared data and calculations.
+This release uses kit 2.4.1 for shared data and calculations.
 Artwork and explicit render fixtures remain face-owned. Run
 `tools/emulator_smoke.py` with pebble-tool's Python for common runtime checks;
 local emulator/visual checkers retain the face-specific assertions.
 The published 8,000-step-default release is recorded in store/published.json.
+
+## 1.1.0 timezone support
+
+The second-timezone picker now matches Mondrian: search all 597 IANA timezone
+identifiers and aliases by city, region or IANA name, including Mumbai,
+Abu Dhabi and Moscow. Open Display → Find a time zone, choose a result in
+Second time zone, then save. Common choices appear first; filtering and clearing
+search preserve the selected zone. Search text is not saved.
+
+Shared kit 2.4.1 provides offline daylight-saving transitions and half-hour and
+quarter-hour offsets using tzdata 2026f (2020–January 2038). Existing selections,
+goals and face settings survive the upgrade. See [KIT.md](KIT.md) for the exact
+dependency revision and validation, and build/ for the 1.1.0 PBW and provenance.

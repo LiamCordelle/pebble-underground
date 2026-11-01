@@ -2,5 +2,6 @@
 module.exports = {
   heading: 'Underground',
   storageKey: 'underground-kit-settings-v1',
-  largeLabels: false
+  largeLabels: false,
+  fullTimezones: true
 };

@@ -17,4 +17,12 @@ settings.save(store,settings.load(store));
 assert.strictEqual(JSON.parse(memory[expected]).TEMP_UNIT,1);
 assert.deepStrictEqual(pkg.pebble.messageKeys,['READY','REQUEST_WEATHER','WEATHER_ID','WEATHER',
   'WEATHER_ERROR','TIME_MODE','TEMP_UNIT','STEP_GOAL','WORLD','WEATHER_ENABLED','DEMO_FALLBACK','LARGE_LABELS']);
+assert.strictEqual(options.fullTimezones,true);
+var displayItems=require('../src/pkjs/kit/config')(options)[1].items;
+assert.strictEqual(displayItems.find(function(item){return item.messageKey==='WORLD';}).options.length,597);
+assert(displayItems.some(function(item){return item.id==='kit-timezone-search';}));
+[0,3,6,268,289,596].forEach(function(zone){
+  settings.save(store,Object.assign(settings.load(store),{WORLD:zone}));
+  assert.strictEqual(settings.load(store).WORLD,zone);
+});
 console.log(pkg.pebble.displayName+' consumer checks passed: UI, existing settings and message-key compatibility.');
